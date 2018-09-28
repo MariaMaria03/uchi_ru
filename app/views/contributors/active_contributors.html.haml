@@ -1,0 +1,32 @@
+- provide(:title, 'Активные контрибьюторы репозитория' )
+
+= form_for('', url: active_contributors_path, method: :get ) do |f|
+  .form-group
+    .row
+      .col-xs-4
+        = f.text_field :repos_url, value: params[:repos_url]
+      .col-xs-2
+        = f.submit 'Найти', class: 'btn btn-default'
+
+- if @contributors
+  %h4 Результаты: 3 самых активных контрибьютора репозитория
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Имя
+        %th Диплом
+    %tbody
+      - @contributors.each do |contributor, file_name|
+        %tr
+          %td
+            %p= contributor
+          %td
+            %p= link_to 'download_pdf', download_pdf_path(file_name: file_name), target: '_blank'
+
+  - if @zip_file
+    %h5.download_zip Скачать архив:
+    %p.download_zip= link_to 'download_zip', download_zip_path(file_url: @zip_file), target: '_blank'
+- else
+  %h4.results_not_found Ничего не найдено. Проверьте адрес и попробуйте еще раз.
+
+%h4= link_to 'На главную', root_path

@@ -1,0 +1,14 @@
+- provide(:title, 'UCHI.RU')
+
+= form_for('', url: active_contributors_path, method: :get ) do |f|
+  .form-group
+    .row
+      .col-xs-12
+        %p Введите адрес репозитория (напр. "https://github.com/prawnpdf/prawn")
+    .row
+      .col-xs-4
+        = f.text_field :repos_url
+      .col-xs-2
+        = f.submit 'Найти', class: 'btn btn-default'
+
+
