@@ -13,7 +13,11 @@ class Github
     uri = URI.parse url
     logger.info "#{Time.zone.now} Request: #{repos_url}"
 
-    response = Net::HTTP.get_response(uri)
+    response = Github.get_response(uri)
+    if response.code == '202'
+      Kernel.sleep(0.5)
+      response = Github.get_response(uri)
+    end
     resp_body = response.body
     if resp_body
       all_contributors = JSON.parse(resp_body)
@@ -28,6 +32,11 @@ class Github
   rescue
     logger.info "#{Time.zone.now} #{repos_url} error"
     nil
+  end
+
+
+  def self.get_response url
+    Net::HTTP.get_response(url)
   end
 
 end
